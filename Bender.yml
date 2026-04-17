@@ -188,7 +188,7 @@ vendor_package:
     upstream: { git: "https://github.com/lowRISC/opentitan.git", rev: "5f26fa7d5745cbaa98a759b68b0fe3c00f00f398" } 
     patch_dir: "rtl/.patches/i2c"
     mapping:
-      - { from: 'hw/ip/i2c/', to: 'rtl/i2c/' }
+      - { from: 'hw/ip/i2c/', to: '' }
 
 
   #########
