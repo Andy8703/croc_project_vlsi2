@@ -25,7 +25,8 @@ packages:
     version: null
     source:
       Path: rtl/cve2
-    dependencies: []
+    dependencies:
+    - common_cells
   idma:
     revision: null
     version: null
@@ -50,6 +51,12 @@ packages:
     dependencies:
     - common_cells
     - obi
+  opentitan:
+    revision: 482f30c7087523fbe8b8491319617a8d3aa0cb23
+    version: null
+    source:
+      Git: https://github.com/lowRISC/opentitan.git
+    dependencies: []
   riscv-dbg:
     revision: null
     version: null

@@ -18,6 +18,7 @@ dependencies:
   obi_peripherals:      { git: "https://github.com/pulp-platform/obi_peripherals.git",      rev: 21ee04d    } # UART
   idma:                 { git: "https://github.com/pulp-platform/idma.git",                 rev: "__deploy__e618e4d__master" } # master with generated files
   cve2:                 { path: "rtl/cve2" } # a vendor package (no Bender.yml), see below 
+  opentitan:            { git: "https://github.com/lowRISC/opentitan.git",                  rev: 482f30c    } # I2C
 
 
 sources:
