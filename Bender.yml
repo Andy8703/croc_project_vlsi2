@@ -183,6 +183,13 @@ vendor_package:
       - { from: 'hw/obi_uart/', to: '',            patch_dir: 'hw/' }
       - { from: 'Bender.yml',   to: 'Bender.yml',  patch_dir: '' }
 
+  - name: opentitan
+    target_dir: rtl/i2c
+    upstream: { git: "https://github.com/lowRISC/opentitan.git", rev: "5f26fa7d5745cbaa98a759b68b0fe3c00f00f398" } 
+    patch_dir: "rtl/.patches/i2c"
+    mapping:
+      - { from: 'hw/ip/i2c/', to: 'rtl/i2c/' }
+
 
   #########
   # core  #
