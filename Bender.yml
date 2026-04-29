@@ -18,7 +18,8 @@ dependencies:
   obi_peripherals:      { git: "https://github.com/pulp-platform/obi_peripherals.git",      rev: 21ee04d    } # UART
   idma:                 { git: "https://github.com/pulp-platform/idma.git",                 rev: "__deploy__e618e4d__master" } # master with generated files
   cve2:                 { path: "rtl/cve2" } # a vendor package (no Bender.yml), see below 
-  opentitan:            { git: "https://github.com/lowRISC/opentitan.git",                  rev: 482f30c    } # I2C
+  #opentitan:            { git: "https://github.com/lowRISC/opentitan.git",                  rev: 482f30c    }
+  opentitan_peripherals: { git: "https://github.com/pulp-platform/opentitan_peripherals.git", rev: cd3153d   } # I2C from OpenTitan (pulp)
 
 
 sources:
@@ -183,12 +184,12 @@ vendor_package:
       - { from: 'hw/obi_uart/', to: '',            patch_dir: 'hw/' }
       - { from: 'Bender.yml',   to: 'Bender.yml',  patch_dir: '' }
 
-  - name: opentitan
+  - name: opentitan_peripherals
     target_dir: rtl/i2c
-    upstream: { git: "https://github.com/lowRISC/opentitan.git", rev: "5f26fa7d5745cbaa98a759b68b0fe3c00f00f398" } 
+    upstream: { git: "https://github.com/pulp-platform/opentitan_peripherals.git", rev: "cd3153de2783abd3d03d0595e6c4b32413c62f14" } 
     patch_dir: "rtl/.patches/i2c"
     mapping:
-      - { from: 'hw/ip/i2c/', to: '' }
+      - { from: 'src/i2c/', to: '', patch_dir: 'src/i2c/' }
 
 
   #########

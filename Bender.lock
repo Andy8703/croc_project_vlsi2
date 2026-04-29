@@ -6,6 +6,15 @@ packages:
       Path: rtl/apb
     dependencies:
     - common_cells
+  axi:
+    revision: 2f395b176bee1c769c80f060a4345fda965bb04b
+    version: 0.38.0
+    source:
+      Git: https://github.com/pulp-platform/axi.git
+    dependencies:
+    - common_cells
+    - common_verification
+    - tech_cells_generic
   common_cells:
     revision: null
     version: null
@@ -51,12 +60,24 @@ packages:
     dependencies:
     - common_cells
     - obi
-  opentitan:
-    revision: 482f30c7087523fbe8b8491319617a8d3aa0cb23
-    version: null
+  opentitan_peripherals:
+    revision: cd3153de2783abd3d03d0595e6c4b32413c62f14
+    version: 0.4.0
     source:
-      Git: https://github.com/lowRISC/opentitan.git
-    dependencies: []
+      Git: https://github.com/pulp-platform/opentitan_peripherals.git
+    dependencies:
+    - common_cells
+    - register_interface
+    - tech_cells_generic
+  register_interface:
+    revision: 146501d80052b61475cdc333d3aab4cd769fd5dc
+    version: 0.3.9
+    source:
+      Git: https://github.com/pulp-platform/register_interface.git
+    dependencies:
+    - apb
+    - axi
+    - common_cells
   riscv-dbg:
     revision: null
     version: null
