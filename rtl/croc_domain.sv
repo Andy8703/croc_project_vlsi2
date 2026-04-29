@@ -657,12 +657,12 @@ module croc_domain import croc_pkg::*; #(
     .rst_ni,
     .obi_req_i      ( reg_req_i ),
     .obi_rsp_o      ( reg_rsp_o ),
-    .i2c_scl_i      (cio_scl_i),
-    .i2c_scl_o      (cio_scl_o),
-    .i2c_scl_en_o   (cio_scl_en_o),
-    .i2c_sda_i      (cio_sda_i),
-    .i2c_sda_o      (cio_sda_o),
-    .i2c_sda_en_o   (cio_sda_en_o)
+    .cio_scl_i      (i2c_scl_i),
+    .cio_scl_o      (i2c_scl_o),
+    .cio_scl_en_o   (i2c_scl_en_o),
+    .cio_sda_i      (i2c_sda_i),
+    .cio_sda_o      (i2c_sda_o),
+    .cio_sda_en_o   (i2c_sda_en_o)
   );
 
   // Bootrom
