@@ -23,6 +23,14 @@ module croc_domain import croc_pkg::*; #(
   input  logic      uart_rx_i,
   output logic      uart_tx_o,
 
+  input             i2c_scl_i,
+  output logic      i2c_scl_o,
+  output logic      i2c_scl_en_o,
+  input             i2c_sda_i,
+  output logic      i2c_sda_o,
+  output logic      i2c_sda_en_o,
+
+
   input  logic [GpioCount-1:0] gpio_i,        // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,        // Output to GPIO pins
   output logic [GpioCount-1:0] gpio_out_en_o, // Output enable signal; 0 -> input, 1 -> output
@@ -639,6 +647,22 @@ module croc_domain import croc_pkg::*; #(
     .obi_rsp_o  ( timer_obi_rsp ),
     .expired_o  ( obi_timer_irq ),
     .overflow_o ()
+  );
+
+  i2c #(
+    .obi_req_t ( reg_req_t ),
+    .obi_rsp_t ( reg_rsp_t )
+  ) i_i2c (
+    .clk_i,
+    .rst_ni,
+    .obi_req_i      ( reg_req_i ),
+    .obi_rsp_o      ( reg_rsp_o ),
+    .i2c_scl_i      (cio_scl_i),
+    .i2c_scl_o      (cio_scl_o),
+    .i2c_scl_en_o   (cio_scl_en_o),
+    .i2c_sda_i      (cio_sda_i),
+    .i2c_sda_o      (cio_sda_o),
+    .i2c_sda_en_o   (cio_sda_en_o)
   );
 
   // Bootrom

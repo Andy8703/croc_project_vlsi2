@@ -137,7 +137,8 @@ package croc_pkg;
     PeriphUart     = 5,
     PeriphGpio     = 6,
     PeriphTimer    = 7,
-    PeriphiDMA     = 8
+    PeriphiDMA     = 8,
+    PeriphiI2C     = 9
   } periph_outputs_e;
 
   /// Address map given to the peripheral mux
@@ -149,7 +150,8 @@ package croc_pkg;
     '{ idx: PeriphUart,    start_addr: 32'h0300_2000, end_addr: 32'h0300_3000 },
     '{ idx: PeriphGpio,    start_addr: 32'h0300_5000, end_addr: 32'h0300_6000 },
     '{ idx: PeriphTimer,   start_addr: 32'h0300_A000, end_addr: 32'h0300_B000 },
-    '{ idx: PeriphiDMA,    start_addr: 32'h0300_B000, end_addr: 32'h0300_C000 }
+    '{ idx: PeriphiDMA,    start_addr: 32'h0300_B000, end_addr: 32'h0300_C000 },
+    '{ idx: PeriphiI2C,    start_addr: 32'h0300_C000, end_addr: 32'h0300_D000 }
   };
 
   // +1 for additional OBI error
