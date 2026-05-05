@@ -28,21 +28,21 @@ module i2c
   output logic              cio_sda_en_o,
 
   // Interrupts
-  output logic              intr_fmt_threshold_o,
-  output logic              intr_rx_threshold_o,
-  output logic              intr_fmt_overflow_o,
-  output logic              intr_rx_overflow_o,
+  output logic              intr_fmt_threshold_o, // Asserted when the FMT FIFO level lies below a designated number of entries. 
+  output logic              intr_rx_threshold_o, // When RX FIFO exceeds the designated number of entries, asserted to inform firmware. Firmware can configure the threshold value via the register HOST_FIFO_CONFIG.RX_THRESH
+  output logic              intr_fmt_overflow_o, 
+  output logic              intr_rx_overflow_o, // Asserted when RX FIFO receives an additional write request when its FIFO is full. 
   output logic              intr_nak_o,
-  output logic              intr_scl_interference_o,
-  output logic              intr_sda_interference_o,
-  output logic              intr_stretch_timeout_o,
-  output logic              intr_sda_unstable_o,
-  output logic              intr_cmd_complete_o,
-  output logic              intr_tx_stretch_o,
-  output logic              intr_tx_overflow_o,
-  output logic              intr_acq_full_o,
-  output logic              intr_unexp_stop_o,
-  output logic              intr_host_timeout_o
+  output logic              intr_scl_interference_o, // Asserted when the controller module is actively transmitting if the IP identifies that some other device on the bus is forcing SCL low and interfering with the transmission.
+  output logic              intr_sda_interference_o, // Asserted when the controller module is actively transmitting if the IP identifies that some other device on the bus is forcing SDA low and interfering with the transmission.
+  output logic              intr_stretch_timeout_o, // Asserted if the module detects that a target device has held SCL low and stretched any given SCL cycle for more than TIMEOUT_CTRL.VAL. Suppressed if TIMEOUT_CTRL.EN is deasserted low. 
+  output logic              intr_sda_unstable_o, // Asserted if value of the SDA signal does not remain constant over the duration of the SCL pulse, causing an unexpected START or STOP symbol.
+  output logic              intr_cmd_complete_o, // Asserted when a transfer is completed.
+  output logic              intr_tx_stretch_o, // Asserted whenever the target module intends to transmit data but cannot
+  output logic              intr_tx_overflow_o, // ??????? TX FIFO level is below a designated number of entries. ???????
+  output logic              intr_acq_full_o, // ACQ FIFO exceed the designated number of entries. 
+  output logic              intr_unexp_stop_o, // Asserted when target module receives a STOP without the prerequisite NACK. A STOP was unexpectedly observed during a controller read.
+  output logic              intr_host_timeout_o // Asserted if a controller ceases to send SCL pulses at any point during an ongoing transaction. 
 );
 
   i2c_reg2hw_t reg2hw;

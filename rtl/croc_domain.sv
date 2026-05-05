@@ -65,6 +65,41 @@ module croc_domain import croc_pkg::*; #(
   logic uart_irq;
   logic gpio_irq;
   logic idma_irq;
+  logic i2c_irq;
+
+  // i2c interrupts
+  logic intr_fmt_threshold;
+  logic intr_rx_threshold,
+  logic intr_fmt_overflow;
+  logic intr_rx_overflow;
+  logic intr_nak;
+  logic intr_scl_interference;
+  logic intr_sda_interference;
+  logic intr_stretch_timeout;
+  logic intr_sda_unstable;
+  logic intr_cmd_complete;
+  logic intr_tx_stretch;
+  logic intr_tx_overflow;
+  logic intr_acq_full;
+  logic intr_unexp_stop;
+  logic intr_host_timeout;
+
+  assign i2c_irq =  intr_fmt_threshold | \
+                    intr_rx_threshold | \
+                    intr_fmt_overflow | \
+                    intr_rx_overflow | \
+                    intr_nak | \
+                    intr_scl_interference | \
+                    intr_sda_interference | \
+                    intr_stretch_timeout | \
+                    intr_sda_unstable | \
+                    intr_cmd_complete | \
+                    intr_tx_stretch | \
+                    intr_tx_overflow | \
+                    intr_acq_full | \
+                    intr_unexp_stop | \
+                    intr_host_timeout;
+
   logic [15:0] interrupts;
   always_comb begin
     interrupts    = '0;
@@ -72,7 +107,8 @@ module croc_domain import croc_pkg::*; #(
     interrupts[1] = uart_irq;
     interrupts[2] = gpio_irq;
     interrupts[3] = idma_irq;
-    interrupts[4+:NumExternalIrqs] = interrupts_i;
+    interrupts[4] = i2c_irq;
+    interrupts[5+:NumExternalIrqs] = interrupts_i;
   end
 
   // ----------------------------
@@ -649,20 +685,21 @@ module croc_domain import croc_pkg::*; #(
     .overflow_o ()
   );
 
+  // I2C
   i2c #(
     .obi_req_t ( reg_req_t ),
     .obi_rsp_t ( reg_rsp_t )
   ) i_i2c (
     .clk_i,
     .rst_ni,
-    .obi_req_i      ( reg_req_i ),
-    .obi_rsp_o      ( reg_rsp_o ),
-    .i2c_scl_i      (cio_scl_i),
-    .i2c_scl_o      (cio_scl_o),
-    .i2c_scl_en_o   (cio_scl_en_o),
-    .i2c_sda_i      (cio_sda_i),
-    .i2c_sda_o      (cio_sda_o),
-    .i2c_sda_en_o   (cio_sda_en_o)
+    .obi_req_i      ( reg_req_i     ),
+    .obi_rsp_o      ( reg_rsp_o     ),
+    .i2c_scl_i      ( cio_scl_i     ),
+    .i2c_scl_o      ( cio_scl_o     ),
+    .i2c_scl_en_o   ( cio_scl_en_o  ),
+    .i2c_sda_i      ( cio_sda_i     ),
+    .i2c_sda_o      ( cio_sda_o     ),
+    .i2c_sda_en_o   ( cio_sda_en_o  )
   );
 
   // Bootrom
