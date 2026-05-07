@@ -12,6 +12,8 @@
 #include "params.h"
 #include "clint.h"
 
+#define OT_PLATFORM_RV32
+
 int i2c_24fc1025_init(dif_i2c_t *i2c, uint64_t core_freq) {
     // Check for legal arguments
     CHECK_ASSERT(0x11, i2c != 0);
