@@ -34,6 +34,10 @@ module tb_croc_soc #(
   logic [GpioCount-1:0] gpio_out;
   logic [GpioCount-1:0] gpio_out_en;
 
+  // I2C signals
+  logic i2c_sda;
+  logic i2c_scl;
+
   // Signals controlled by the testbench
 
   /////////////////////////////
@@ -81,7 +85,9 @@ module tb_croc_soc #(
     .uart_tx_i     ( uart_tx     ),
     .gpio_out_en_i ( gpio_out_en ),
     .gpio_out_i    ( gpio_out    ),
-    .gpio_in_o     ( gpio_in     )
+    .gpio_in_o     ( gpio_in     ),
+    .i2c_sda       ( i2c_sda_io  ),
+    .i2c_scl       ( i2c_scl_io  )
   );
 
   ////////////
@@ -109,7 +115,9 @@ module tb_croc_soc #(
     .uart_tx_o     ( uart_tx     ),
     .gpio_i        ( gpio_in     ),
     .gpio_o        ( gpio_out    ),
-    .gpio_out_en_o ( gpio_out_en )
+    .gpio_out_en_o ( gpio_out_en ),
+    .i2c_scl_io    ( i2c_scl_io  ),
+    .i2c_sda_io    ( i2c_sda_io  )
   );
 
   /////////////////

@@ -23,13 +23,8 @@ module croc_domain import croc_pkg::*; #(
   input  logic      uart_rx_i,
   output logic      uart_tx_o,
 
-  input             i2c_scl_i,
-  output logic      i2c_scl_o,
-  output logic      i2c_scl_en_o,
-  input             i2c_sda_i,
-  output logic      i2c_sda_o,
-  output logic      i2c_sda_en_o,
-
+  inout  wire       i2c_scl_io,
+  inout  wire       i2c_sda_io,
 
   input  logic [GpioCount-1:0] gpio_i,        // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,        // Output to GPIO pins
@@ -701,6 +696,13 @@ module croc_domain import croc_pkg::*; #(
     .cio_sda_o      (i2c_sda_o),
     .cio_sda_en_o   (i2c_sda_en_o)
   );
+
+  bufif1 (i2c_sda_i, i2c_sda, ~i2c_sda_en);
+  bufif1 (i2c_sda, i2c_sda_o,  i2c_sda_en);
+  bufif1 (i2c_scl_i, i2c_scl, ~i2c_scl_en);
+  bufif1 (i2c_scl, i2c_scl_o,  i2c_scl_en);
+  pullup (i2c_sda);
+  pullup (i2c_scl);
 
   // Bootrom
   bootrom #(

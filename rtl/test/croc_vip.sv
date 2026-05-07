@@ -19,6 +19,8 @@ module croc_vip #(
   input  logic                 jtag_tdo_i,
   output logic                 uart_rx_o,
   input  logic                 uart_tx_i,
+  inout  wire                  i2c_sda_io,
+  inout  wire                  i2c_scl_io,
   input  logic [GpioCount-1:0] gpio_out_en_i,
   input  logic [GpioCount-1:0] gpio_out_i,
   output logic [GpioCount-1:0] gpio_in_o
@@ -365,7 +367,37 @@ module croc_vip #(
       end
       $display("@%t | [UART] %s", $time, uart_str);
     end
+  
+  ////////////
+  //  I2C   //
+  ////////////
+
+  // Write-protect only chip 0
+  bit [3:0] i2c_wp = 4'b0001;
+
+  // We connect 2 chips available at different addresses;
+  // however, the boot ROM will always boot from chip 0.
+  for (genvar i = 0; i < 2; i++) begin : gen_i2c_eeproms
+    M24FC1025 i_i2c_eeprom (
+      .RESET  ( rst_n ),
+      .A0     ( i[0] ),
+      .A1     ( 1'b0 ),
+      .A2     ( 1'b1 ),
+      .WP     ( i2c_wp[i] ),
+      .SDA    ( i2c_sda   ),
+      .SCL    ( i2c_scl   )
+    );
   end
+
+  // Preload function called by testbench
+  task automatic i2c_eeprom_preload(string image);
+    // We overlay the entire memory with an alternating pattern
+    for (int k = 0; k < $size(gen_i2c_eeproms[0].i_i2c_eeprom.MemoryBlock); ++k)
+        gen_i2c_eeproms[0].i_i2c_eeprom.MemoryBlock[k] = 'h9a;
+    // We load an image into chip 0 only if it exists
+    if (image != "")
+      $readmemh(image, gen_i2c_eeproms[0].i_i2c_eeprom.MemoryBlock);
+  endtask
 
   ////////////
   //  GPIO  //

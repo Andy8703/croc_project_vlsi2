@@ -23,6 +23,9 @@ module croc_soc import croc_pkg::*; #(
   input  logic uart_rx_i,
   output logic uart_tx_o,
 
+  inout  wire       i2c_scl_io,
+  inout  wire       i2c_sda_io,
+
   input  logic [GpioCount-1:0] gpio_i,       // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,       // Output to GPIO pins
   output logic [GpioCount-1:0] gpio_out_en_o // Output enable signal; 0 -> input, 1 -> output
@@ -67,6 +70,9 @@ croc_domain #(
 
   .uart_rx_i,
   .uart_tx_o,
+
+  .i2c_scl_io,
+  .i2c_sda_io,
 
   .gpio_i,
   .gpio_o,
